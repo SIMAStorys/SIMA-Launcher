@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIMA Premium abonnieren</title>
+<style>
+  :root{--bg:#1d1e20;--panel:#2a2b2e;--edge:#0c0d0e;--text:#ecebe5;--sub:#a5a399;--green:#4f9a2b;--gold:#e3a72a}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--text);font:16px/1.55 "Segoe UI",system-ui,sans-serif}
+  main{width:100%;max-width:520px;background:var(--panel);border:2px solid var(--edge);box-shadow:inset 2px 2px 0 rgba(255,255,255,.14),inset -2px -2px 0 rgba(0,0,0,.5),8px 8px 0 rgba(0,0,0,.4);padding:28px}
+  h1{margin:0 0 4px;font-size:26px}
+  .price{color:var(--gold);font-weight:700;margin:0 0 18px}
+  ul{margin:0 0 22px;padding-left:20px;color:var(--sub)}
+  li{margin:4px 0}
+  ol{margin:22px 0 0;padding-left:20px;color:var(--sub)}
+  #done{display:none;margin-top:8px;padding:16px;border:2px solid var(--green);background:rgba(79,154,43,.12)}
+  #done b{display:block;margin:6px 0;padding:8px 10px;background:rgba(0,0,0,.4);border:2px solid var(--edge);font:700 17px Consolas,monospace;user-select:all;word-break:break-all}
+  #fail{display:none;color:#ffb3a8}
+  small{color:var(--sub)}
+</style>
+</head>
+<body>
+<main>
+  <h1>SIMA Premium</h1>
+  <p class="price">1 € pro Monat, jederzeit kündbar</p>
+  <ul>
+    <li>Premium-Designs, exklusive Skins und Umhänge</li>
+    <li>Eigener Launcher-Titel, Streamer-Modus und Abzeichen</li>
+    <li>Du unterstützt die Weiterentwicklung von SIMA</li>
+  </ul>
+
+  <div id="paypal-button-container-P-5MX769283L975554FNLVZAJY"></div>
+  <p id="fail">Der PayPal-Button konnte nicht geladen werden. Lade die Seite neu oder deaktiviere Werbeblocker für diese Seite.</p>
+
+  <div id="done">
+    <strong>Danke für dein Abo!</strong>
+    <div>Deine Abo-Nummer:</div>
+    <b id="subid"></b>
+    <div>Gib diese Nummer im Launcher unter Premium → Abo-Nummer ein, dann wird Premium automatisch freigeschaltet. Falls das nicht klappt, schick sie uns auf Discord.</div>
+  </div>
+
+  <ol>
+    <li>Mit PayPal abonnieren</li>
+    <li>Abo-Nummer kopieren</li>
+    <li>Im Launcher unter Premium eingeben</li>
+  </ol>
+  <p><small>Das Abo läuft über PayPal. Kündigen kannst du es dort jederzeit unter Einstellungen → Zahlungen → Automatische Zahlungen.</small></p>
+</main>
+
+<script src="https://www.paypal.com/sdk/js?client-id=BAAV8r4hwxyhddQcYH3KJXj4OmjbkPPVkqrn-_Fy1w9LOnFqn63qaMT4dB2Je9yDgDQsVj-iVxfx0iInC8&vault=true&intent=subscription" data-sdk-integration-source="button-factory" onerror="document.getElementById('fail').style.display='block'"></script>
+<script>
+  if (window.paypal) {
+    paypal.Buttons({
+      style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
+      createSubscription: function (data, actions) {
+        return actions.subscription.create({ plan_id: 'P-5MX769283L975554FNLVZAJY' });
+      },
+      onApprove: function (data) {
+        document.getElementById('subid').textContent = data.subscriptionID;
+        document.getElementById('done').style.display = 'block';
+        document.getElementById('paypal-button-container-P-5MX769283L975554FNLVZAJY').style.display = 'none';
+      }
+    }).render('#paypal-button-container-P-5MX769283L975554FNLVZAJY');
+  }
+</script>
+</body>
+</html>
