@@ -46,6 +46,7 @@
     <li>Im Launcher unter Premium eingeben</li>
   </ol>
   <p><small>Das Abo läuft über PayPal. Kündigen kannst du es dort jederzeit unter Einstellungen → Zahlungen → Automatische Zahlungen.</small></p>
+  <p id="perr" style="display:none;color:#ff8a8a;font-weight:bold"></p>
 </main>
 
 <script src="https://www.paypal.com/sdk/js?client-id=BAAV8r4hwxyhddQcYH3KJXj4OmjbkPPVkqrn-_Fy1w9LOnFqn63qaMT4dB2Je9yDgDQsVj-iVxfx0iInC8&vault=true&intent=subscription" data-sdk-integration-source="button-factory" onerror="document.getElementById('fail').style.display='block'"></script>
@@ -55,6 +56,17 @@
       style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
       createSubscription: function (data, actions) {
         return actions.subscription.create({ plan_id: 'P-5MX769283L975554FNLVZAJY' });
+      },
+      onError: function (err) {
+        var m = (err && err.message) ? err.message : String(err);
+        var e = document.getElementById('perr');
+        e.textContent = 'PayPal-Fehler: ' + m.slice(0, 300);
+        e.style.display = 'block';
+      },
+      onCancel: function () {
+        var e = document.getElementById('perr');
+        e.textContent = 'Abgebrochen. Falls das Fenster sich von selbst geschlossen hat, nutze zum Testen ein ANDERES PayPal-Konto als das Geschäftskonto.';
+        e.style.display = 'block';
       },
       onApprove: function (data) {
         document.getElementById('subid').textContent = data.subscriptionID;
